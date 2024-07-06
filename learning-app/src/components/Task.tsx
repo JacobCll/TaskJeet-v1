@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
   const handleCheckbox = () => {
     setTaskGroups(
@@ -40,24 +42,26 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
 
   return (
     <div className="task-container">
-      <div className="task-content">
-        <div className="task-checkbox-container">
-          <input
-            className="task-checkbox"
-            type="checkbox"
-            checked={task.completed}
-            onChange={handleCheckbox}
-          />
-        </div>
+      <div className="task-checkbox-container">
+        <input
+          className="task-checkbox"
+          id={`checkbox-${task.id}`}
+          type="checkbox"
+          checked={task.completed}
+          onChange={handleCheckbox}
+        />
+        <label htmlFor={`checkbox-${task.id}`}></label>
+      </div>
 
-        <div className="task-info">
-          <h4>{task.name}</h4>
-          <p>{task.description}</p>
-        </div>
+      <div className="task-info">
+        <h4>{task.name}</h4>
+        <p>{task.description}</p>
+      </div>
 
-        <div className="task-delete-button">
-          <button onClick={handleDeleteTask}>delete</button>
-        </div>
+      <div className={"task-settings"}>
+        <button onClick={handleDeleteTask}>
+          <span className="material-icons">more_vert</span>
+        </button>
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import Task from "../components/Task";
 import TaskTemplate from "./TaskTemplate";
 import PopUpMenu from "./PopUpMenu";
 import useAutoResizeTextarea from "../hooks/useAutoResizeTextarea";
-import useCloseOnOutside from "../hooks/useCloseOnOutside";
 
 export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
   const [addTaskEnabled, setAddTaskEnabled] = useState(false);
@@ -12,7 +11,6 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
   const [taskId, setTaskId] = useState(0);
 
   const textareaRef = useAutoResizeTextarea(value);
-  const popUpMenuRef = useCloseOnOutside(popUpMenu, setPopUpMenu);
 
   const currentTaskGroup = taskGroups.find((group) => group.id === groupId);
 
@@ -38,7 +36,7 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
     setValue(e.target.value);
   };
 
-  console.log(taskId);
+  console.log(taskGroups);
   return (
     <div className="tasks-list-container">
       <div className="list-heading">
@@ -57,16 +55,17 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
           rows={1}
         />
         <div className="list-context">
-          <span
-            className="list-context-button material-icons"
+          <button
+            className="list-context-button"
             onClick={() => setPopUpMenu(true)}
           >
-            more_vert
-          </span>
+            <span className="material-icons">more_vert</span>
+          </button>
 
           {popUpMenu && (
             <PopUpMenu
-              popUpMenuRef={popUpMenuRef}
+              popUpMenu={popUpMenu}
+              setPopUpMenu={setPopUpMenu}
               groupId={groupId}
               taskGroups={taskGroups}
               setTaskGroups={setTaskGroups}
@@ -81,8 +80,10 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
         className="add-task-button"
         onClick={() => setAddTaskEnabled(!addTaskEnabled)}
       >
-        <span className="material-symbols-outlined">add_circle</span>
-        Add Task
+        <span className="add-task-icon material-symbols-outlined">
+          add_circle
+        </span>
+        Add a task
       </button>
 
       <ul className="task-list">

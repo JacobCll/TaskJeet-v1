@@ -1,9 +1,12 @@
+import useCloseOnOutside from "../hooks/useCloseOnOutside";
 export default function PopUpMenu({
-  popUpMenuRef,
+  popUpMenu,
+  setPopUpMenu,
   groupId,
   taskGroups,
   setTaskGroups,
 }) {
+  const popUpMenuRef = useCloseOnOutside(popUpMenu, setPopUpMenu);
   const handleDeleteList = () => {
     setTaskGroups(taskGroups.filter((tg) => tg.id !== groupId));
   };

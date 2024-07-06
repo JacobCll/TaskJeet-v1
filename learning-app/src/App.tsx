@@ -11,7 +11,7 @@ export default function TodoApp() {
   let [taskGroups, setTaskGroups] = useState([]);
   return (
     <div>
-      <h1 className="app-title">Swiftask</h1>
+      <h1 className="app-title">TaskJeet</h1>
       <ToolBar
         taskGroups={taskGroups}
         setTaskGroups={setTaskGroups}
