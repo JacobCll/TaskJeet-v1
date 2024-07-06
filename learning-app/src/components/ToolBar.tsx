@@ -20,7 +20,7 @@ export default function ToolBar({
 
   return (
     <div className="toolbar">
-      <button onClick={handleAddGroup}>Add Task Group</button>
+      <button onClick={handleAddGroup}>Add List</button>
       <div className="search-container">
         <input
           className="search-field"

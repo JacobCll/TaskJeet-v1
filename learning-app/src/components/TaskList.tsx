@@ -1,17 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Task from "../components/Task";
+import TaskTemplate from "./TaskTemplate";
+import PopUpMenu from "./PopUpMenu";
 import useAutoResizeTextarea from "../hooks/useAutoResizeTextarea";
-
-let taskId = 0;
+import useCloseOnOutside from "../hooks/useCloseOnOutside";
 
 export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
-  let [addTaskEnabled, setAddTaskEnabled] = useState(false);
-  let [value, setValue] = useState("");
+  const [addTaskEnabled, setAddTaskEnabled] = useState(false);
+  const [popUpMenu, setPopUpMenu] = useState(false);
+  const [value, setValue] = useState("");
+  const [taskId, setTaskId] = useState(0);
+
   const textareaRef = useAutoResizeTextarea(value);
+  const popUpMenuRef = useCloseOnOutside(popUpMenu, setPopUpMenu);
 
   const currentTaskGroup = taskGroups.find((group) => group.id === groupId);
 
-  console.log(taskGroups);
+  useEffect(() => {
+    if (currentTaskGroup) {
+      setValue(currentTaskGroup.name);
+    }
+  }, [currentTaskGroup]);
 
   const handleOnChangeListTitle = (e) => {
     setTaskGroups(
@@ -28,41 +37,67 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
     );
     setValue(e.target.value);
   };
+
+  console.log(taskId);
   return (
-    <>
-      <textarea
-        placeholder="List title..."
-        className="task-list-title"
-        ref={textareaRef}
-        value={value}
-        onChange={(e) => {
-          handleOnChangeListTitle(e);
-        }}
-        style={{
-          overflow: "hidden",
-          resize: "none",
-        }}
-        rows={1}
-      />
+    <div className="tasks-list-container">
+      <div className="list-heading">
+        <textarea
+          placeholder="TITLE"
+          className="task-list-title"
+          ref={textareaRef}
+          value={value}
+          onChange={(e) => {
+            handleOnChangeListTitle(e);
+          }}
+          style={{
+            overflow: "hidden",
+            resize: "none",
+          }}
+          rows={1}
+        />
+        <div className="list-context">
+          <span
+            className="list-context-button material-icons"
+            onClick={() => setPopUpMenu(true)}
+          >
+            more_vert
+          </span>
+
+          {popUpMenu && (
+            <PopUpMenu
+              popUpMenuRef={popUpMenuRef}
+              groupId={groupId}
+              taskGroups={taskGroups}
+              setTaskGroups={setTaskGroups}
+            />
+          )}
+        </div>
+      </div>
+
       <hr />
 
-      {addTaskEnabled ? (
-        <TaskTemplate
-          setAddTaskEnabled={setAddTaskEnabled}
-          groupId={groupId}
-          taskGroups={taskGroups}
-          setTaskGroups={setTaskGroups}
-        />
-      ) : (
-        <button
-          className="add-task-button"
-          onClick={() => setAddTaskEnabled(!addTaskEnabled)}
-        >
-          Add Task
-        </button>
-      )}
+      <button
+        className="add-task-button"
+        onClick={() => setAddTaskEnabled(!addTaskEnabled)}
+      >
+        <span className="material-symbols-outlined">add_circle</span>
+        Add Task
+      </button>
 
       <ul className="task-list">
+        {addTaskEnabled && (
+          <TaskTemplate
+            addTaskEnabled={addTaskEnabled}
+            setAddTaskEnabled={setAddTaskEnabled}
+            taskId={taskId}
+            setTaskId={setTaskId}
+            groupId={groupId}
+            taskGroups={taskGroups}
+            setTaskGroups={setTaskGroups}
+          />
+        )}
+
         {currentTaskGroup.tasks.map((task) => (
           <li key={task.id}>
             <Task
@@ -74,69 +109,6 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
           </li>
         ))}
       </ul>
-    </>
-  );
-}
-
-// component to add new tasks
-const TaskTemplate = ({
-  groupId,
-  setAddTaskEnabled,
-  taskGroups,
-  setTaskGroups,
-}) => {
-  let [taskNameText, setTaskNameText] = useState("");
-  let [taskDescText, setTaskDescText] = useState("");
-
-  const saveTask = () => {
-    setTaskGroups(
-      taskGroups.map((tg) => {
-        if (tg.id === groupId) {
-          return {
-            ...tg,
-            tasks: [
-              ...tg.tasks,
-              {
-                id: taskId++,
-                name: taskNameText,
-                description: taskDescText,
-                completed: false,
-              },
-            ],
-          };
-        } else {
-          return tg;
-        }
-      })
-    );
-    setAddTaskEnabled(false);
-  };
-
-  return (
-    <div className="editing-task">
-      <div className="editing-task-inputs">
-        <input
-          type="text"
-          placeholder="Enter task name..."
-          value={taskNameText}
-          onChange={(e) => {
-            setTaskNameText(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Enter task description..."
-          value={taskDescText}
-          onChange={(e) => {
-            setTaskDescText(e.target.value);
-          }}
-        />
-      </div>
-
-      <div className="editing-task-buttons">
-        <button onClick={saveTask}>Save</button>
-        <button onClick={() => setAddTaskEnabled(false)}>Cancel</button>
-      </div>
     </div>
   );
-};
+}

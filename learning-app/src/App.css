@@ -1,7 +1,9 @@
 * {
     box-sizing: border-box;
 }
-
+body {
+  background-color: #f8f9fa;
+}
 hr {
   margin: 0;
 }
@@ -30,7 +32,7 @@ hr {
 
 /* editing-task classes */
 .editing-task {
-    margin: 5px 5px 0 5px;
+    margin: 0px 7px 0 7px;
 }
 
 .editing-task-inputs {
@@ -50,40 +52,67 @@ hr {
   margin-right: 5px;
 }
 
-.tasks-list-container hr {
-  margin: 0px;
-}
-
 /* task classes */
 .tasklists-container {
   padding: 7px;
 }
 
 .tasks-list-container {
-  width: auto;
-  max-width: 300px;
-  min-width: 200px;
-  border-style: solid;
+  background-color: #ffffff;
+  border-color: rgb(241,243,244);
   border-width: 1px;
-  border-radius: 6px;
-  padding: 7px;
+  border-style: solid;
+  min-width: 200px;
+  border-radius: 12px;
+  padding: 7px 0px;
   word-break: break-word;
   margin: 5px;
 }
 
+.tasks-list-container:hover {
+  outline: none;
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302),
+              0 1px 3px 1px rgba(60,64,67,0.149);
+}
+
+.tasks-list-container hr {
+  margin: 0px;
+  border: 1px solid rgb(241,243,244);
+}
+
+.list-heading {
+  display: flex;
+  position: relative;
+  color: black;
+}
+
+.list-context-button.material-icons {
+  margin-right: 7px;
+  border-radius: 7px;
+}
+
+.list-context-button.material-icons:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
 .task-list-title {
-  margin: 0;
+  margin: 0 0 0 7px;
   border: none;
   display: inline-block;
   font-family: inherit;
-  font-size: large;
-  font-weight:600;
+  font-size:large;
+  font-weight:400;
   padding: none;
   padding: 0;
   width: 100%;
-  max-width: 100%;
   resize: none;
   
+}
+
+.task-list-title::placeholder {
+  color: #9f9f9f;
+  font-weight:250;
 }
 
 .task-list-title:focus {
@@ -91,17 +120,62 @@ hr {
 }
 
 .task-container {
-  margin-bottom: 5px;
-  display:flex;
+  margin-bottom: 3px;
+}
+.task-content {
+  display: flex;
   gap: 10px;
   word-break: break-word;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 6px;
-  padding: 5px;
+  padding: 4px 7px;
 }
 
-.task-checkbox input{
+.task-container:hover {
+  background-color: #f2f2f2 ;
+}
+
+.list-context {
+  position: relative;
+  display: inline-block;
+}
+
+.list-context-content {
+  display: block;
+  position: absolute;
+  background-color: #ffffff ;
+  padding: 5px 0px;
+  border-radius: 3px;
+  font-size: 0.7em;
+  z-index: 1;
+  width: 150px;
+  min-width: fit-content;
+  max-width: 150px;
+  right: 45%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 
+              0px 4px 8px rgba(0, 0, 0, 0.1), 
+              0px 8px 16px rgba(0, 0, 0, 0.1); /* Google's shadow style */
+}
+
+.list-context-content ul {
+  padding: 0;
+  margin: 0;
+}
+
+.list-context-content span {
+  padding-left: 10px;
+}
+
+.list-context-content li{
+  padding: 2px;
+  display:block;
+  list-style-type: none;
+}
+
+.list-context-content li:hover {
+  background-color: #f2f2f2 ;
+  cursor: pointer;
+}
+
+.task-checkbox {
   margin: 0px;
 }
 
@@ -116,6 +190,7 @@ hr {
 
 .task-info h4, p{
   margin: 0px;
+  cursor: default;
 }
 
 .task-delete-button {
@@ -127,13 +202,13 @@ hr {
 
 .task-list {
   list-style-type: none;
-  padding: 6px;
+  padding: 6px 0px;
   margin: 0px;
 }
 
 .add-task-button {
+  margin-top: 6px;
   margin-left: 7px;
-  margin-top: 5px;
 }
 
 

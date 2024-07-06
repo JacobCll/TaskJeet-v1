@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import TaskList from "./components/TaskList";
 import ToolBar from "./components/ToolBar";
 import "./App.css";
@@ -21,23 +21,25 @@ export default function TodoApp() {
         setGroupId={setGroupId}
       />
       <hr />
+
       <TaskGroups taskGroups={taskGroups} setTaskGroups={setTaskGroups} />
     </div>
   );
 }
 
+const breakPoints = { 350: 1, 670: 2, 870: 3, 1080: 4, 1500: 5 };
 const TaskGroups = ({ taskGroups, setTaskGroups }) => {
   return (
-    <ResponsiveMasonry>
+    <ResponsiveMasonry columnsCountBreakPoints={breakPoints}>
       <Masonry className="tasklists-container">
         {taskGroups.map((group) => (
-          <div className="tasks-list-container" key={group.id}>
+          <Fragment key={group.id}>
             <TaskList
               groupId={group.id}
               taskGroups={taskGroups}
               setTaskGroups={setTaskGroups}
             />
-          </div>
+          </Fragment>
         ))}
       </Masonry>
     </ResponsiveMasonry>

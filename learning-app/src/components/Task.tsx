@@ -1,6 +1,5 @@
 export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
   const handleCheckbox = () => {
-    // change
     setTaskGroups(
       taskGroups.map((tg) => {
         if (tg.id === groupId) {
@@ -41,22 +40,24 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
 
   return (
     <div className="task-container">
-      <div className="task-checkbox-container">
-        <input
-          className="task-checkbox"
-          type="checkbox"
-          checked={task.completed}
-          onChange={handleCheckbox}
-        />
-      </div>
+      <div className="task-content">
+        <div className="task-checkbox-container">
+          <input
+            className="task-checkbox"
+            type="checkbox"
+            checked={task.completed}
+            onChange={handleCheckbox}
+          />
+        </div>
 
-      <div className="task-info">
-        <h4>{task.name}</h4>
-        <p>{task.description}</p>
-      </div>
+        <div className="task-info">
+          <h4>{task.name}</h4>
+          <p>{task.description}</p>
+        </div>
 
-      <div className="task-delete-button">
-        <button onClick={handleDeleteTask}>delete</button>
+        <div className="task-delete-button">
+          <button onClick={handleDeleteTask}>delete</button>
+        </div>
       </div>
     </div>
   );
