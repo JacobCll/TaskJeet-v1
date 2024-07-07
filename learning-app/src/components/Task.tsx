@@ -1,6 +1,9 @@
 import { useState } from "react";
+import PopUpMenu from "./TPopUpMenu";
 
 export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
+  const [popUpMenu, setPopUpMenu] = useState(false);
+
   const handleCheckbox = () => {
     setTaskGroups(
       taskGroups.map((tg) => {
@@ -17,21 +20,6 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
                 return t;
               }
             }),
-          };
-        } else {
-          return tg;
-        }
-      })
-    );
-  };
-
-  const handleDeleteTask = () => {
-    setTaskGroups(
-      taskGroups.map((tg) => {
-        if (tg.id === groupId) {
-          return {
-            ...tg,
-            tasks: tg.tasks.filter((t) => t.id !== task.id),
           };
         } else {
           return tg;
@@ -58,10 +46,23 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
         <p>{task.description}</p>
       </div>
 
-      <div className={"task-settings"}>
-        <button onClick={handleDeleteTask}>
-          <span className="material-icons">more_vert</span>
-        </button>
+      <div className="task-settings-container">
+        <div className="task-settings-button">
+          <button onClick={() => setPopUpMenu(true)}>
+            <span className="material-icons">more_vert</span>
+          </button>
+
+          {popUpMenu && (
+            <PopUpMenu
+              task={task}
+              groupId={groupId}
+              taskGroups={taskGroups}
+              setTaskGroups={setTaskGroups}
+              popUpMenu={popUpMenu}
+              setPopUpMenu={setPopUpMenu}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

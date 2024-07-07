@@ -134,6 +134,7 @@ hr {
 }
 
 .task-container {
+  background-color: #ffffff;
   position: relative;
   width: 100%;
   height: auto;
@@ -147,25 +148,31 @@ hr {
   background-color: #f2f2f2 ;
 }
 
-.task-container:hover .task-settings{
-  opacity: 1;
-}
 /* #f2f2f2 */
-.task-settings {
+/* background for the task settings */
+.task-settings-container {
   position: absolute;
   right: 15px;
-  top: 0;
-  bottom: 0;
+  top: 0px;
+  bottom: 0px;
   display: flex;
-  background: linear-gradient(to right, rgba(173, 216, 230, 0) 1%, lightblue 99%);
+  background: linear-gradient(to right, rgba(173, 216, 230, 0) 1%, #f2f2f2 99%);
   width: fit-content;
   flex-shrink: 0;
-  opacity: 1;
+  visibility: hidden;
   z-index: 1;
-  gap: 15px;
+  padding-top: 4px;
 }
 
-.task-settings button{
+.task-container:hover .task-settings-container{
+  visibility: visible;
+}
+
+.task-container .task-settings-container .task-settings-content{
+  visibility: visible;
+}
+
+.task-settings-button button{
   display: flex;
   align-items: center;
   border-radius: 7px;
@@ -176,11 +183,55 @@ hr {
   border: none;
   background: none;
   padding: 0;
+  cursor: pointer;
+}
+
+.task-settings-button button:hover {
+  background-color: #e5e5e5;
+}
+
+.task-settings-content {
+  display: block;
+  position: absolute;
+  background-color: #ffffff ;
+  padding: 5px 0px;
+  border-radius: 3px;
+  z-index: 2;
+  width: 200px;
+  min-width: fit-content;
+  top: 28px;
+  right: 7px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 
+              0px 4px 8px rgba(0, 0, 0, 0.1), 
+              0px 8px 16px rgba(0, 0, 0, 0.1); /* Google's shadow style */
   
 }
 
-.task-settings button:hover {
-  background-color: #e5e5e5;
+.task-settings-content .delete-task-button {
+  display: flex;
+  margin: 0px;
+  padding: 3px 0px 3px 10px;
+  border: none;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  width: 100%;
+  height: fit-content;
+  background: none;
+  color: black;
+  font-style: "Open Sans";
+  gap: 10px;
+}
+
+.task-settings-content .delete-task-button .material-symbols-outlined {
+  font-size: 22px;
+  color: #5f6368;
+  font-weight: 350;
+}
+
+.task-settings-content .delete-task-button:hover {
+  background-color: #f2f2f2 ;
 }
 
 .list-context {
@@ -268,7 +319,7 @@ hr {
 }
 
 .task-info {
- width: 85%
+ width: 83%
 }
 
 .task-info h4{

@@ -14,7 +14,7 @@ export default function PopUpMenu({
     <div className="list-context-content" ref={popUpMenuRef}>
       <ul>
         <li onClick={handleDeleteList}>
-          <span>Delete List</span>
+          <span>Delete list</span>
         </li>
       </ul>
     </div>

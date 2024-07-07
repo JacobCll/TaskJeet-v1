@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Task from "../components/Task";
 import TaskTemplate from "./TaskTemplate";
-import PopUpMenu from "./PopUpMenu";
+import PopUpMenu from "./TLPopUpMenu";
 import useAutoResizeTextarea from "../hooks/useAutoResizeTextarea";
 
 export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
