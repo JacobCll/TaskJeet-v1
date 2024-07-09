@@ -1,26 +1,19 @@
-export default function ToolBar({
-  taskGroups,
-  setTaskGroups,
+export default function Header({
+  mainMenu,
+  setMainMenu,
   searchText,
   setSearchText,
-  groupId,
-  setGroupId,
 }) {
-  const handleAddGroup = () => {
-    setTaskGroups([
-      ...taskGroups,
-      {
-        name: "",
-        id: groupId,
-        tasks: [],
-      },
-    ]);
-    setGroupId(groupId + 1);
-  };
-
   return (
-    <div className="toolbar">
-      <button onClick={handleAddGroup}>Add List</button>
+    <div className="header">
+      <button
+        className="main-menu-button"
+        onClick={() => setMainMenu(!mainMenu)}
+      >
+        <span className="material-icons">menu</span>
+      </button>
+      <h1 className="app-title">TaskJeet</h1>
+
       <div className="search-container">
         <input
           className="search-field"

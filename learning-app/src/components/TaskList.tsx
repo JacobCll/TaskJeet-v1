@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import Task from "../components/Task";
 import TaskTemplate from "./TaskTemplate";
 import PopUpMenu from "./TLPopUpMenu";
+
 import useAutoResizeTextarea from "../hooks/useAutoResizeTextarea";
 
 export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
@@ -13,12 +15,6 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
   const textareaRef = useAutoResizeTextarea(value);
 
   const currentTaskGroup = taskGroups.find((group) => group.id === groupId);
-
-  useEffect(() => {
-    if (currentTaskGroup) {
-      setValue(currentTaskGroup.name);
-    }
-  }, [currentTaskGroup]);
 
   const handleOnChangeListTitle = (e) => {
     setTaskGroups(
@@ -36,7 +32,6 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
     setValue(e.target.value);
   };
 
-  console.log(taskGroups);
   return (
     <div className="tasks-list-container">
       <div className="list-heading">
@@ -47,10 +42,6 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
           value={value}
           onChange={(e) => {
             handleOnChangeListTitle(e);
-          }}
-          style={{
-            overflow: "hidden",
-            resize: "none",
           }}
           rows={1}
         />
@@ -89,8 +80,8 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
       <ul className="task-list">
         {addTaskEnabled && (
           <TaskTemplate
-            addTaskEnabled={addTaskEnabled}
-            setAddTaskEnabled={setAddTaskEnabled}
+            taskTemplateEnabler={addTaskEnabled}
+            setTaskTemplateEnabler={setAddTaskEnabled}
             taskId={taskId}
             setTaskId={setTaskId}
             groupId={groupId}

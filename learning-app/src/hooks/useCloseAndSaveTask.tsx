@@ -3,11 +3,11 @@
 
 import { useEffect, useRef } from "react";
 
-const useCloseAndSaveTask = (addTaskEnabled, saveTaskAndClose) => {
+const useCloseAndSaveTask = (enabler, saveTaskAndClose) => {
   const editingTaskRef = useRef(null);
 
   const closeAndSave = (e) => {
-    if (addTaskEnabled && !editingTaskRef.current?.contains(e.target)) {
+    if (enabler && !editingTaskRef.current?.contains(e.target)) {
       saveTaskAndClose();
     }
   };
@@ -18,7 +18,7 @@ const useCloseAndSaveTask = (addTaskEnabled, saveTaskAndClose) => {
     return () => {
       document.removeEventListener("mousedown", closeAndSave);
     };
-  }, [addTaskEnabled, saveTaskAndClose]);
+  }, [enabler, saveTaskAndClose]);
 
   return editingTaskRef;
 };

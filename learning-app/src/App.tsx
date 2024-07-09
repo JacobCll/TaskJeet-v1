@@ -1,28 +1,38 @@
 import { Fragment, useState } from "react";
-import TaskList from "./components/TaskList";
-import ToolBar from "./components/ToolBar";
 import "./App.css";
+
+import TaskList from "./components/TaskList";
+import Header from "./components/Header";
+import MainMenu from "./components/MainMenu";
 
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export default function TodoApp() {
-  let [groupId, setGroupId] = useState(0);
-  let [searchText, setSearchText] = useState("");
-  let [taskGroups, setTaskGroups] = useState([]);
+  const [groupId, setGroupId] = useState(0);
+  const [searchText, setSearchText] = useState("");
+  const [taskGroups, setTaskGroups] = useState([]);
+  const [mainMenu, setMainMenu] = useState(true);
+
+  console.log(taskGroups);
   return (
-    <div>
-      <h1 className="app-title">TaskJeet</h1>
-      <ToolBar
-        taskGroups={taskGroups}
-        setTaskGroups={setTaskGroups}
+    <div className="app-container">
+      <Header
+        mainMenu={mainMenu}
+        setMainMenu={setMainMenu}
         searchText={searchText}
         setSearchText={setSearchText}
-        groupId={groupId}
-        setGroupId={setGroupId}
       />
-      <hr />
-
-      <TaskGroups taskGroups={taskGroups} setTaskGroups={setTaskGroups} />
+      <div className="app-body">
+        {mainMenu && (
+          <MainMenu
+            taskGroups={taskGroups}
+            setTaskGroups={setTaskGroups}
+            groupId={groupId}
+            setGroupId={setGroupId}
+          />
+        )}
+        <TaskGroups taskGroups={taskGroups} setTaskGroups={setTaskGroups} />
+      </div>
     </div>
   );
 }
@@ -30,8 +40,11 @@ export default function TodoApp() {
 const breakPoints = { 350: 1, 670: 2, 870: 3, 1080: 4, 1500: 5 };
 const TaskGroups = ({ taskGroups, setTaskGroups }) => {
   return (
-    <ResponsiveMasonry columnsCountBreakPoints={breakPoints}>
-      <Masonry className="tasklists-container">
+    <ResponsiveMasonry
+      columnsCountBreakPoints={breakPoints}
+      className="tasklists-container"
+    >
+      <Masonry>
         {taskGroups.map((group) => (
           <Fragment key={group.id}>
             <TaskList

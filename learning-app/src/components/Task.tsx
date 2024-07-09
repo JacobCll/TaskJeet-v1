@@ -1,8 +1,11 @@
 import { useState } from "react";
+
+import TaskTemplate from "./TaskTemplate";
 import PopUpMenu from "./TPopUpMenu";
 
 export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
   const [popUpMenu, setPopUpMenu] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleCheckbox = () => {
     setTaskGroups(
@@ -29,41 +32,57 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
   };
 
   return (
-    <div className="task-container">
-      <div className="task-checkbox-container">
-        <input
-          className="task-checkbox"
-          id={`checkbox-${task.id}`}
-          type="checkbox"
-          checked={task.completed}
-          onChange={handleCheckbox}
+    <div onClick={() => setIsEditing(true)}>
+      {isEditing ? (
+        <TaskTemplate
+          taskId={task.id}
+          groupId={groupId}
+          taskGroups={taskGroups}
+          setTaskGroups={setTaskGroups}
+          taskName={task.name}
+          taskDesc={task.description}
+          taskCompleted={task.completed}
+          taskTemplateEnabler={isEditing}
+          setTaskTemplateEnabler={setIsEditing}
         />
-        <label htmlFor={`checkbox-${task.id}`}></label>
-      </div>
-
-      <div className="task-info">
-        <h4>{task.name}</h4>
-        <p>{task.description}</p>
-      </div>
-
-      <div className="task-settings-container">
-        <div className="task-settings-button">
-          <button onClick={() => setPopUpMenu(true)}>
-            <span className="material-icons">more_vert</span>
-          </button>
-
-          {popUpMenu && (
-            <PopUpMenu
-              task={task}
-              groupId={groupId}
-              taskGroups={taskGroups}
-              setTaskGroups={setTaskGroups}
-              popUpMenu={popUpMenu}
-              setPopUpMenu={setPopUpMenu}
+      ) : (
+        <div className="task-container">
+          <div className="task-checkbox-container">
+            <input
+              className="task-checkbox"
+              id={`checkbox-${task.id}`}
+              type="checkbox"
+              checked={task.completed}
+              onChange={handleCheckbox}
             />
-          )}
+            <label htmlFor={`checkbox-${task.id}`}></label>
+          </div>
+
+          <div className="task-info">
+            <h4>{task.name}</h4>
+            <p>{task.description}</p>
+          </div>
+
+          <div className="task-settings-container">
+            <div className="task-settings-button">
+              <button onClick={() => setPopUpMenu(true)}>
+                <span className="material-icons">more_vert</span>
+              </button>
+
+              {popUpMenu && (
+                <PopUpMenu
+                  task={task}
+                  groupId={groupId}
+                  taskGroups={taskGroups}
+                  setTaskGroups={setTaskGroups}
+                  popUpMenu={popUpMenu}
+                  setPopUpMenu={setPopUpMenu}
+                />
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

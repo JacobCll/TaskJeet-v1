@@ -1,54 +1,129 @@
 import { useState } from "react";
+
 import useCloseAndSaveTask from "../hooks/useCloseAndSaveTask";
+import useAutoResizeTextarea from "../hooks/useAutoResizeTextarea";
+import useFocus from "../hooks/useFocusOnInput";
+import useMergeRefs from "../hooks/useMergeRefs";
+
+type TaskTemplateProps = {
+  taskId: number;
+  taskName?: string;
+  taskDesc?: string;
+  taskCompleted?: boolean;
+  setTaskId?: (id: number) => number;
+  groupId: string;
+  taskTemplateEnabler?: boolean;
+  setTaskTemplateEnabler?: (enabled: boolean) => void;
+  taskGroups: any[];
+  setTaskGroups: (groups: any[]) => void;
+};
+
 // component to add new tasks
 export default function TaskTemplate({
   taskId,
-  setTaskId,
+  setTaskId = null,
   groupId,
-  addTaskEnabled,
-  setAddTaskEnabled,
+  taskTemplateEnabler = false,
+  setTaskTemplateEnabler = null,
   taskGroups,
   setTaskGroups,
-}) {
-  const [taskNameText, setTaskNameText] = useState("");
-  const [taskDescText, setTaskDescText] = useState("");
+  taskName = "",
+  taskDesc = "",
+  taskCompleted = false,
+}: TaskTemplateProps) {
+  const [taskNameText, setTaskNameText] = useState(taskName);
+  const [taskDescText, setTaskDescText] = useState(taskDesc);
+
+  const taskNameRef = useAutoResizeTextarea(taskNameText);
+  const taskDescRef = useAutoResizeTextarea(taskDescText);
+  const textareaRef = useFocus();
+
+  // merge multiple refs hook
+  const taskNameMergeRefs = useMergeRefs(taskNameRef, textareaRef);
 
   const saveTaskAndClose = () => {
+    // check if there is text in both inputs
     if (taskDescText || taskNameText) {
+      setTaskGroups(
+        taskGroups.map((tg) => {
+          if (tg.id === groupId) {
+            const taskExists = tg.tasks.some((task) => task.id === taskId);
+            if (taskExists) {
+              return {
+                ...tg,
+                tasks: tg.tasks.map((task) => {
+                  if (task.id === taskId) {
+                    return {
+                      ...task,
+                      name: taskNameText,
+                      description: taskDescText,
+                      completed: taskCompleted,
+                    };
+                  } else {
+                    return task;
+                  }
+                }),
+              };
+            } else {
+              setTaskId(taskId + 1);
+              return {
+                ...tg,
+                tasks: [
+                  {
+                    id: taskId,
+                    name: taskNameText,
+                    description: taskDescText,
+                    completed: false,
+                  },
+                  ...tg.tasks,
+                ],
+              };
+            }
+          } else {
+            return tg;
+          }
+        })
+      );
+      //if there is none delete the task
+    } else {
       setTaskGroups(
         taskGroups.map((tg) => {
           if (tg.id === groupId) {
             return {
               ...tg,
-              tasks: [
-                {
-                  id: taskId,
-                  name: taskNameText,
-                  description: taskDescText,
-                  completed: false,
-                },
-                ...tg.tasks,
-              ],
+              tasks: tg.tasks.filter((t) => t.id !== taskId),
             };
           } else {
             return tg;
           }
         })
       );
-      setTaskId(taskId + 1);
     }
 
-    setAddTaskEnabled(false);
+    setTaskTemplateEnabler(false);
   };
 
-  const taskTemplateRef = useCloseAndSaveTask(addTaskEnabled, saveTaskAndClose);
+  const taskTemplateRef = useCloseAndSaveTask(
+    taskTemplateEnabler,
+    saveTaskAndClose
+  );
 
   return (
     <div className="editing-task" ref={taskTemplateRef}>
-      <div className="editing-task-inputs">
+      <div className="task-checkbox-container">
         <input
-          type="text"
-          placeholder="Enter task name..."
+          className="task-checkbox"
+          id={`editing-checkbox`}
+          type="checkbox"
+        />
+        <label htmlFor={`editing-checkbox`}></label>
+      </div>
+      <div className="editing-task-inputs">
+        <textarea
+          rows={1}
+          className="task-name-textarea"
+          ref={taskNameMergeRefs}
+          placeholder="Title"
           value={taskNameText}
           onChange={(e) => {
             setTaskNameText(e.target.value);
@@ -58,9 +133,11 @@ export default function TaskTemplate({
           }}
         />
 
-        <input
-          type="text"
-          placeholder="Enter task description..."
+        <textarea
+          rows={1}
+          className="task-desc-textarea"
+          ref={taskDescRef}
+          placeholder="Details"
           value={taskDescText}
           onChange={(e) => {
             setTaskDescText(e.target.value);
