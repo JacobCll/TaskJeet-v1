@@ -1,14 +1,17 @@
 import useCloseOnOutside from "../hooks/useCloseOnOutside";
 export default function PopUpMenu({
+  showedListIds,
+  setShowedListIds,
   popUpMenu,
   setPopUpMenu,
-  groupId,
+  group,
   taskGroups,
   setTaskGroups,
 }) {
   const popUpMenuRef = useCloseOnOutside(popUpMenu, setPopUpMenu);
   const handleDeleteList = () => {
-    setTaskGroups(taskGroups.filter((tg) => tg.id !== groupId));
+    setTaskGroups(taskGroups.filter((tg) => tg.id !== group.id));
+    setShowedListIds(showedListIds.filter((id) => id !== group.id));
   };
   return (
     <div className="list-context-content" ref={popUpMenuRef}>

@@ -79,7 +79,7 @@ hr {
   gap: 45px;
 }
 
-.create-list-button {
+.create-task-button {
   font-size: 15px;
   font-weight: 500;
   display: flex;
@@ -87,6 +87,7 @@ hr {
   border: none;
   background: none;
   color: #37373d;
+  background-color: #ffffff;
   margin: 0;
   padding: 8px 15px;
   border-radius: 26px;
@@ -97,14 +98,14 @@ hr {
   transition: box-shadow 0.3s ease, transform 0.3s ease;            
 }
 
-.create-list-button:hover {
+.create-task-button:hover {
   color: #123873;
   background-color: #f6f9fe;
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.352),
               0 1px 3px 1px rgba(60, 64, 67, 0.199);
 }
 
-.create-list-button .material-icons {
+.create-task-button .material-icons {
   font-weight:lighter;
   font-size: 31px;
 }
@@ -170,9 +171,13 @@ hr {
 }
 
 /* task classes */
-
+.tasks-list-container.favorites {
+  width: 80%;
+  margin: 8px;
+}
 
 .tasks-list-container {
+  color: #000000;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
@@ -180,7 +185,7 @@ hr {
   border-width: 1px;
   border-style: solid;
   min-width: 200px;
-  max-width: 100%;
+  max-width: 800px;
   border-radius: 12px;
   margin: 3px;
   word-break: break-word;
@@ -198,10 +203,11 @@ hr {
 }
 
 .list-heading {
+  font-size:large;
   display: flex;
   position: relative;
   align-items: center;
-  padding: 7px 0;
+  padding: 7px 0 7px 15px;
 }
 
 .list-context-button {
@@ -224,7 +230,7 @@ hr {
 }
 
 .task-list-title {
-  margin: 0 0 0 15px;
+  margin: 0;
   border: none;
   display: inline-block;
   font-family: inherit;
@@ -268,13 +274,14 @@ hr {
 /* #f2f2f2 */
 /* background for the task settings */
 .task-settings-container {
+  color: #5f6368;
+  padding-left: 25px;
   position: absolute;
   right: 15px;
   top: 0px;
   bottom: 0px;
   display: flex;
   background: linear-gradient(to right, rgba(173, 216, 230, 0) 1%, #f2f2f2 99%);
-  width: fit-content;
   flex-shrink: 0;
   visibility: hidden;
   z-index: 1;
@@ -296,7 +303,6 @@ hr {
   color: #5f6368;
   width: fit-content;
   height: fit-content;
-  margin-left: 30px;
   border: none;
   background: none;
   padding: 0;
@@ -355,8 +361,9 @@ hr {
   position: relative;
   display: inline-block;
 }
-
+ 
 .list-context-content {
+  font-size: 16px;
   color: #202124;
   display: block;
   position: absolute;
@@ -365,9 +372,9 @@ hr {
   border-radius: 3px;
   font-size: 0.7em;
   z-index: 1;
-  width: 150px;
+  width: 200px;
   min-width: fit-content;
-  max-width: 150px;
+  max-width: 200px;
   right: 45%;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 
               0px 4px 8px rgba(0, 0, 0, 0.1), 
@@ -384,6 +391,7 @@ hr {
 }
 
 .list-context-content li{
+  font-size: 16px;
   padding: 2px;
   display:block;
   list-style-type: none;
@@ -530,17 +538,18 @@ hr {
 }
 
 .lists-markdown {
-  margin-left: 22px;
+  color: #37373d;
+  font-size: 15px;
 }
 
 .lists-markdown-button {
-  color: #37373d;
   display: flex;
   align-items: center;
 }
 
 .lists-markdown-button div{
-  
+  padding-left: 22px;
+  cursor: pointer;
   font-weight: 600;
   font-size: 15px;
   width: 100%;
@@ -551,6 +560,7 @@ hr {
   color: inherit;
   background: none;
   border-radius: 25px;
+  font-size: 15px;
   padding: 3px;
   margin: 0px;
   border: none;
@@ -561,30 +571,72 @@ hr {
   background-color: #eeeff0;
 }
 
+.lists-container-overflow {
+  max-height: 290px;
+  overflow: auto;
+}
+
 .lists-container {
+  display:flex;
+  flex-direction: column;
   margin: 0;
   padding: 0;
 }
 
 .list-item {
   display: flex;
+  padding: 11px 24px;
   color: inherit;
   list-style-type: none;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
+  align-items: center;
+  cursor: pointer;
+  line-height: 2px;
+  border-radius: 15px;
+  overflow: hidden;
+  white-space: nowrap;
+  gap: 17px;
 }
 
-.list-item input {
-  margin: 0;
-  margin-right: 18px;
+.list-item:hover {
+  background-color: #eeeff0;
+}
+
+.list-item-checkbox {
+  margin: 0px 0px 0px 2px;
+  transform: scale(1.5);
+  cursor: pointer;
 }
 
 .tasklists-container {
   display: flex;
-  gap: 5px;
   width: 100%;
   margin: 5px;
 }
 
+.main-container {
+  padding-top: 13px;
+  width: 1980px;
+  display: flex;
+}
 
+.add-list-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 6px 21px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 12px;
+  font-size: inherit;
+  color: inherit;
+  font-weight: 600;
+  border-radius: 15px;
+  color: inherit;
+}
 
+.add-list-button:hover {
+  background-color: #eeeff0;
+}

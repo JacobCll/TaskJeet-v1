@@ -4,26 +4,29 @@ import Task from "../components/Task";
 import TaskTemplate from "./TaskTemplate";
 import PopUpMenu from "./TLPopUpMenu";
 
-import useFocus from "../hooks/useFocusOnInput";
 import useMergeRefs from "../hooks/useMergeRefs";
 import useAutoResizeTextarea from "../hooks/useAutoResizeTextarea";
 
-export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
+export default function TaskList({
+  taskId,
+  setTaskId,
+  showedListIds,
+  setShowedListIds,
+  taskGroups,
+  setTaskGroups,
+  group,
+}) {
   const [addTaskEnabled, setAddTaskEnabled] = useState(false);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [value, setValue] = useState("");
-  const [taskId, setTaskId] = useState(0);
 
   const textareaRef = useAutoResizeTextarea(value);
-  const titleTextAreaRef = useFocus();
-  const titleTextRef = useMergeRefs(titleTextAreaRef, textareaRef);
-
-  const currentTaskGroup = taskGroups.find((group) => group.id === groupId);
+  const titleTextRef = useMergeRefs(textareaRef);
 
   const handleOnChangeListTitle = (e) => {
     setTaskGroups(
       taskGroups.map((tg) => {
-        if (tg.id === groupId) {
+        if (tg.id === group.id) {
           return {
             ...tg,
             name: e.target.value,
@@ -43,7 +46,7 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
           placeholder="TITLE"
           className="task-list-title"
           ref={titleTextRef}
-          value={currentTaskGroup.name}
+          value={group.name}
           onChange={(e) => {
             handleOnChangeListTitle(e);
           }}
@@ -59,9 +62,11 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
 
           {popUpMenu && (
             <PopUpMenu
+              showedListIds={showedListIds}
+              setShowedListIds={setShowedListIds}
               popUpMenu={popUpMenu}
               setPopUpMenu={setPopUpMenu}
-              groupId={groupId}
+              group={group}
               taskGroups={taskGroups}
               setTaskGroups={setTaskGroups}
             />
@@ -88,16 +93,16 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
             setTaskTemplateEnabler={setAddTaskEnabled}
             taskId={taskId}
             setTaskId={setTaskId}
-            groupId={groupId}
+            group={group}
             taskGroups={taskGroups}
             setTaskGroups={setTaskGroups}
           />
         )}
 
-        {currentTaskGroup.tasks.map((task) => (
+        {group.tasks.map((task) => (
           <li key={task.id}>
             <Task
-              groupId={groupId}
+              group={group}
               task={task}
               taskGroups={taskGroups}
               setTaskGroups={setTaskGroups}

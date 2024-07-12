@@ -1,9 +1,4 @@
-export default function Header({
-  mainMenu,
-  setMainMenu,
-  searchText,
-  setSearchText,
-}) {
+export default function Header({ mainMenu, setMainMenu }) {
   return (
     <div className="header">
       <button
@@ -13,19 +8,6 @@ export default function Header({
         <span className="material-icons">menu</span>
       </button>
       <h1 className="app-title">TaskJeet</h1>
-
-      {/* <div className="search-container">
-        <input
-          className="search-field"
-          placeholder="Search task..."
-          value={searchText}
-          onChange={(e: any) => {
-            setSearchText(e.value.target);
-          }}
-        />
-
-        <button className="search-button">Search</button>
-      </div> */}
     </div>
   );
 }

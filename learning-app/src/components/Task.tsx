@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import TaskTemplate from "./TaskTemplate";
 import PopUpMenu from "./TPopUpMenu";
 
-export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
+// prop "task" is an object
+export default function Task({ task, taskGroups, setTaskGroups, group }) {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const isFavorite = group.favorites.includes(task.id);
 
-  const handleCheckbox = () => {
-    setTaskGroups(
-      taskGroups.map((tg) => {
-        if (tg.id === groupId) {
+  console.log(group.tasks);
+  // handle checking a task
+  const handleCheckbox = useCallback(() => {
+    setTaskGroups((prevTaskGroups) =>
+      prevTaskGroups.map((tg) => {
+        if (tg.id === group.id) {
           return {
             ...tg,
             tasks: tg.tasks.map((t) => {
@@ -29,14 +33,32 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
         }
       })
     );
-  };
+  }, [group, setTaskGroups, task]);
+
+  // handle adding task to favorites
+  const handleAddToFavorites = useCallback(() => {
+    setTaskGroups((prevTaskGroups) =>
+      prevTaskGroups.map((tg) => {
+        if (tg.id === group.id) {
+          return {
+            ...tg,
+            favorites: tg.favorites.includes(task.id)
+              ? tg.favorites.filter((id) => id !== task.id)
+              : [...tg.favorites, task.id],
+          };
+        } else {
+          return tg;
+        }
+      })
+    );
+  }, [group, setTaskGroups, task]);
 
   return (
     <div onClick={() => setIsEditing(true)}>
       {isEditing ? (
         <TaskTemplate
           taskId={task.id}
-          groupId={groupId}
+          group={group}
           taskGroups={taskGroups}
           setTaskGroups={setTaskGroups}
           taskName={task.name}
@@ -53,7 +75,7 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
               id={`checkbox-${task.id}`}
               type="checkbox"
               checked={task.completed}
-              onChange={(e) => {
+              onChange={() => {
                 handleCheckbox();
               }}
               onClick={(e) => e.stopPropagation()}
@@ -83,13 +105,29 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
               {popUpMenu && (
                 <PopUpMenu
                   task={task}
-                  groupId={groupId}
+                  group={group}
                   taskGroups={taskGroups}
                   setTaskGroups={setTaskGroups}
                   popUpMenu={popUpMenu}
                   setPopUpMenu={setPopUpMenu}
                 />
               )}
+            </div>
+
+            <div className="task-settings-button">
+              <button
+                className="task-settings-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddToFavorites();
+                }}
+              >
+                {isFavorite ? (
+                  <span className="material-icons">star</span>
+                ) : (
+                  <span className="material-icons">star_border</span>
+                )}
+              </button>
             </div>
           </div>
         </div>

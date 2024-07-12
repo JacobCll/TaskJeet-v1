@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 export default function MainMenu({
+  showedListIds,
+  setShowedListIds,
   selection,
   setSelection,
   taskGroups,
@@ -8,6 +10,9 @@ export default function MainMenu({
   groupId,
   setGroupId,
 }) {
+  // show lists markdown on click
+  const [listsMdShown, setListsMdShown] = useState(true);
+
   const handleAddGroup = () => {
     setTaskGroups([
       ...taskGroups,
@@ -15,13 +20,15 @@ export default function MainMenu({
         name: "",
         id: groupId,
         tasks: [],
+        favorites: [],
       },
     ]);
     setGroupId(groupId + 1);
   };
+
   return (
     <div className="main-menu">
-      <button className="create-list-button" onClick={handleAddGroup}>
+      <button className="create-task-button">
         <span className="material-icons">add</span>Create
       </button>
 
@@ -49,25 +56,54 @@ export default function MainMenu({
       </div>
 
       <div className="lists-markdown">
-        <div className="lists-markdown-button">
+        <div
+          className="lists-markdown-button"
+          onClick={() => setListsMdShown(!listsMdShown)}
+        >
           <div>Lists</div>
           <button>
-            <span className="material-icons">expand_more</span>
+            {listsMdShown ? (
+              <span className="material-icons">expand_less</span>
+            ) : (
+              <span className="material-icons">expand_more</span>
+            )}
           </button>
         </div>
-        <ul className="lists-container">
-          {taskGroups.map((tg) => {
-            return (
-              <li className="list-item">
-                <div className="list-item-checkbox">
-                  <input type="checkbox" />
-                  <label></label>
-                </div>
-                {tg.name}
-              </li>
-            );
-          })}
-        </ul>
+        {listsMdShown && (
+          <div className="lists-container-overflow">
+            <ul className="lists-container">
+              {taskGroups.map((tg) => {
+                return (
+                  <li key={tg.id} className="list-item">
+                    <input
+                      className="list-item-checkbox"
+                      type="checkbox"
+                      checked={showedListIds.includes(tg.id)}
+                      onChange={() =>
+                        showedListIds.includes(tg.id)
+                          ? setShowedListIds(
+                              showedListIds.filter((id) => id !== tg.id)
+                            )
+                          : setShowedListIds([...showedListIds, tg.id])
+                      }
+                    />
+                    {tg.name}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+
+        <button
+          className="add-list-button"
+          onClick={() => {
+            setShowedListIds([...showedListIds, groupId]);
+            handleAddGroup();
+          }}
+        >
+          <span className="material-icons">add</span>Create new list
+        </button>
       </div>
     </div>
   );

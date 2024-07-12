@@ -9,7 +9,7 @@ import useMergeRefs from "../hooks/useMergeRefs";
 export default function TaskTemplate({
   taskId,
   setTaskId = null,
-  groupId,
+  group,
   taskTemplateEnabler = false,
   setTaskTemplateEnabler = null,
   taskGroups,
@@ -33,7 +33,7 @@ export default function TaskTemplate({
     if (taskDescText || taskNameText) {
       setTaskGroups(
         taskGroups.map((tg) => {
-          if (tg.id === groupId) {
+          if (tg.id === group.id) {
             const taskExists = tg.tasks.some((task) => task.id === taskId);
             if (taskExists) {
               return {
@@ -45,6 +45,7 @@ export default function TaskTemplate({
                       name: taskNameText,
                       description: taskDescText,
                       completed: taskCompleted,
+                      favorite: false,
                     };
                   } else {
                     return task;
@@ -75,7 +76,7 @@ export default function TaskTemplate({
     } else {
       setTaskGroups(
         taskGroups.map((tg) => {
-          if (tg.id === groupId) {
+          if (tg.id === group.id) {
             return {
               ...tg,
               tasks: tg.tasks.filter((t) => t.id !== taskId),
