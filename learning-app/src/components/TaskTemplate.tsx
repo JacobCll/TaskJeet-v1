@@ -5,19 +5,6 @@ import useAutoResizeTextarea from "../hooks/useAutoResizeTextarea";
 import useFocus from "../hooks/useFocusOnInput";
 import useMergeRefs from "../hooks/useMergeRefs";
 
-type TaskTemplateProps = {
-  taskId: number;
-  taskName?: string;
-  taskDesc?: string;
-  taskCompleted?: boolean;
-  setTaskId?: (id: number) => number;
-  groupId: string;
-  taskTemplateEnabler?: boolean;
-  setTaskTemplateEnabler?: (enabled: boolean) => void;
-  taskGroups: any[];
-  setTaskGroups: (groups: any[]) => void;
-};
-
 // component to add new tasks
 export default function TaskTemplate({
   taskId,
@@ -30,7 +17,7 @@ export default function TaskTemplate({
   taskName = "",
   taskDesc = "",
   taskCompleted = false,
-}: TaskTemplateProps) {
+}) {
   const [taskNameText, setTaskNameText] = useState(taskName);
   const [taskDescText, setTaskDescText] = useState(taskDesc);
 

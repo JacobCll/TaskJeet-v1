@@ -53,9 +53,15 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
               id={`checkbox-${task.id}`}
               type="checkbox"
               checked={task.completed}
-              onChange={handleCheckbox}
+              onChange={(e) => {
+                handleCheckbox();
+              }}
+              onClick={(e) => e.stopPropagation()}
             />
-            <label htmlFor={`checkbox-${task.id}`}></label>
+            <label
+              onClick={(e) => e.stopPropagation()}
+              htmlFor={`checkbox-${task.id}`}
+            ></label>
           </div>
 
           <div className="task-info">
@@ -65,7 +71,12 @@ export default function Task({ task, taskGroups, setTaskGroups, groupId }) {
 
           <div className="task-settings-container">
             <div className="task-settings-button">
-              <button onClick={() => setPopUpMenu(true)}>
+              <button
+                onClick={(e) => {
+                  setPopUpMenu(true);
+                  e.stopPropagation();
+                }}
+              >
                 <span className="material-icons">more_vert</span>
               </button>
 

@@ -68,21 +68,19 @@ hr {
 }
 
 .main-menu {
-  padding: 16px 10px;
-  width: 300px;
+  color: #37373d;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px 16px 10px;
+  width: 290px;
+  min-width: 290px;
+  max-width: 290px;
   height: 100%;
-  border-right: 1px solid black;
+  gap: 45px;
 }
-
-.tasklists-container {
-  padding: 7px;
-  width: 100%;
-}
-
-
 
 .create-list-button {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -90,9 +88,10 @@ hr {
   background: none;
   color: #37373d;
   margin: 0;
-  padding: 8px 18px 8px 12px;
+  padding: 8px 15px;
   border-radius: 26px;
   cursor: pointer;
+  width: 118px;
   box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302),
               0 1px 3px 1px rgba(60,64,67,0.149);
   transition: box-shadow 0.3s ease, transform 0.3s ease;            
@@ -107,7 +106,7 @@ hr {
 
 .create-list-button .material-icons {
   font-weight:lighter;
-  font-size: 33px;
+  font-size: 31px;
 }
 
 /* editing-task classes */
@@ -174,14 +173,17 @@ hr {
 
 
 .tasks-list-container {
+  display: flex;
+  flex-direction: column;
   background-color: #ffffff;
   border-color: rgb(241,243,244);
   border-width: 1px;
   border-style: solid;
   min-width: 200px;
+  max-width: 100%;
   border-radius: 12px;
+  margin: 3px;
   word-break: break-word;
-  margin: 5px;
 }
 
 .tasks-list-container:hover {
@@ -471,16 +473,15 @@ hr {
 
 .add-task-button {
   margin-top: 6px;
-  margin-left: 7px;
   border-radius: 17px;
   background: none;
   border: none;
   display: flex;
   color: #1a73e8;
   align-items: center;
-  width: 200px;
+  width: 100%;
   gap: 10px;
-  padding: 5px 6px;
+  padding: 6px 6px 6px 12px;
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
@@ -491,9 +492,99 @@ hr {
   color: #174ea6;
 }
 
-
 .add-task-icon.material-symbols-outlined {
   font-size: 20px;
 }
+
+.task-selections {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-selection {
+  display: flex;
+  gap: 13px;
+  padding: 6px 18px;
+  background: none;
+  border:none;
+  border-radius: 15px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: #37373d;;
+}
+
+.button-selection.selected {
+  background-color: #e8f0fe;
+  font-weight: 600;
+}
+
+.button-selection.selected:hover {
+  background-color: #e0ebfd;
+}
+
+.button-selection:hover {
+  color: #123873;
+  background-color: #eeeff0;
+}
+
+.lists-markdown {
+  margin-left: 22px;
+}
+
+.lists-markdown-button {
+  color: #37373d;
+  display: flex;
+  align-items: center;
+}
+
+.lists-markdown-button div{
+  
+  font-weight: 600;
+  font-size: 15px;
+  width: 100%;
+}
+
+.lists-markdown-button button{
+  display: flex;
+  color: inherit;
+  background: none;
+  border-radius: 25px;
+  padding: 3px;
+  margin: 0px;
+  border: none;
+  cursor: pointer;
+}
+
+.lists-markdown-button button:hover {
+  background-color: #eeeff0;
+}
+
+.lists-container {
+  margin: 0;
+  padding: 0;
+}
+
+.list-item {
+  display: flex;
+  color: inherit;
+  list-style-type: none;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.list-item input {
+  margin: 0;
+  margin-right: 18px;
+}
+
+.tasklists-container {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  margin: 5px;
+}
+
 
 

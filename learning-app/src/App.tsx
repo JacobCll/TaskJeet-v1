@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
 import TaskList from "./components/TaskList";
@@ -12,6 +12,18 @@ export default function TodoApp() {
   const [searchText, setSearchText] = useState("");
   const [taskGroups, setTaskGroups] = useState([]);
   const [mainMenu, setMainMenu] = useState(true);
+  const [selection, setSelection] = useState("all-tasks");
+  let breakPoints;
+  // dynamic masonry
+  switch (taskGroups.length) {
+    case 1:
+      breakPoints = { 900: 1 };
+      break;
+    case 2:
+      breakPoints = { 900: 2, 750: 1 };
+  }
+
+  // const breakPoints = { 350: 1, 670: 2, 870: 3, 1080: 4, 1500: 5 };
 
   console.log(taskGroups);
   return (
@@ -25,34 +37,39 @@ export default function TodoApp() {
       <div className="app-body">
         {mainMenu && (
           <MainMenu
+            selection={selection}
+            setSelection={setSelection}
             taskGroups={taskGroups}
             setTaskGroups={setTaskGroups}
             groupId={groupId}
             setGroupId={setGroupId}
           />
         )}
-        <TaskGroups taskGroups={taskGroups} setTaskGroups={setTaskGroups} />
+        <TaskGroups
+          breakPoints={breakPoints}
+          taskGroups={taskGroups}
+          setTaskGroups={setTaskGroups}
+        />
       </div>
     </div>
   );
 }
 
-const breakPoints = { 350: 1, 670: 2, 870: 3, 1080: 4, 1500: 5 };
-const TaskGroups = ({ taskGroups, setTaskGroups }) => {
+const TaskGroups = ({ breakPoints, taskGroups, setTaskGroups }) => {
   return (
     <ResponsiveMasonry
       columnsCountBreakPoints={breakPoints}
       className="tasklists-container"
     >
-      <Masonry>
+      <Masonry className="masonry-container" style={{}}>
         {taskGroups.map((group) => (
-          <Fragment key={group.id}>
+          <div key={group.id}>
             <TaskList
               groupId={group.id}
               taskGroups={taskGroups}
               setTaskGroups={setTaskGroups}
             />
-          </Fragment>
+          </div>
         ))}
       </Masonry>
     </ResponsiveMasonry>

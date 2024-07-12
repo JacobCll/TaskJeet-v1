@@ -14,7 +14,7 @@ export default function Header({
       </button>
       <h1 className="app-title">TaskJeet</h1>
 
-      <div className="search-container">
+      {/* <div className="search-container">
         <input
           className="search-field"
           placeholder="Search task..."
@@ -25,7 +25,7 @@ export default function Header({
         />
 
         <button className="search-button">Search</button>
-      </div>
+      </div> */}
     </div>
   );
 }

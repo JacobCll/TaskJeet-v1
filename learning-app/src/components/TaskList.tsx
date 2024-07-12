@@ -4,6 +4,8 @@ import Task from "../components/Task";
 import TaskTemplate from "./TaskTemplate";
 import PopUpMenu from "./TLPopUpMenu";
 
+import useFocus from "../hooks/useFocusOnInput";
+import useMergeRefs from "../hooks/useMergeRefs";
 import useAutoResizeTextarea from "../hooks/useAutoResizeTextarea";
 
 export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
@@ -13,6 +15,8 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
   const [taskId, setTaskId] = useState(0);
 
   const textareaRef = useAutoResizeTextarea(value);
+  const titleTextAreaRef = useFocus();
+  const titleTextRef = useMergeRefs(titleTextAreaRef, textareaRef);
 
   const currentTaskGroup = taskGroups.find((group) => group.id === groupId);
 
@@ -38,8 +42,8 @@ export default function TaskList({ taskGroups, setTaskGroups, groupId }) {
         <textarea
           placeholder="TITLE"
           className="task-list-title"
-          ref={textareaRef}
-          value={value}
+          ref={titleTextRef}
+          value={currentTaskGroup.name}
           onChange={(e) => {
             handleOnChangeListTitle(e);
           }}
